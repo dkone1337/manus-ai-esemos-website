@@ -1,0 +1,19 @@
+# Binaries
+esemos-app
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Database
+esemos.db
+esemos.db-journal
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Go
+vendor/
+go1.22.0.linux-amd64.tar.gz
