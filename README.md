@@ -22,14 +22,14 @@ go build -o esemos-app cmd/main.go
 
 ### 3. Systemd Service einrichten
 ```bash
-sudo cp configs/esemos.service /etc/systemd/system/
+sudo cp ansible/esemos.service /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable --now esemos
 ```
 
 ### 4. Nginx konfigurieren
 ```bash
-sudo cp configs/nginx.conf /etc/nginx/vhosts.d/esemos.conf
+sudo cp ansible/esemos.conf /etc/nginx/vhosts.d/esemos.conf
 sudo systemctl reload nginx
 ```
 

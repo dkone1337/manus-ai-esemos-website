@@ -3,7 +3,7 @@
   hosts: all
   become: true
   vars:
-    app_dir: "/home/ubuntu/esemos-app"
+    app_dir: "/opt/esemos-app"
     binary_name: "esemos-app"
 
   tasks:
