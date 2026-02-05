@@ -1,0 +1,25 @@
+{{define "content"}}
+<section style="padding: 4rem 10%;">
+    <div class="contact-form" style="max-width: 800px;">
+        <h2>Beitrag erstellen / bearbeiten</h2>
+        <form action="/admin/posts/new" method="POST">
+            <label style="display: block; margin-bottom: 0.5rem;">Titel</label>
+            <input type="text" name="title" placeholder="Titel des Beitrags" required>
+            
+            <label style="display: block; margin-bottom: 0.5rem;">Slug (URL-Teil)</label>
+            <input type="text" name="slug" placeholder="z.b. mein-neuer-beitrag" required>
+            
+            <label style="display: block; margin-bottom: 0.5rem;">Zusammenfassung</label>
+            <textarea name="summary" rows="2" placeholder="Kurze Beschreibung für die Übersicht" required></textarea>
+            
+            <label style="display: block; margin-bottom: 0.5rem;">Inhalt (Markdown oder HTML)</label>
+            <textarea name="content" rows="10" placeholder="Der eigentliche Text..." required></textarea>
+            
+            <div style="display: flex; gap: 1rem;">
+                <button type="submit">Speichern</button>
+                <a href="/admin/posts" style="padding: 1rem 2rem; color: white; text-decoration: none; border: 1px solid var(--glass-border); border-radius: 8px;">Abbrechen</a>
+            </div>
+        </form>
+    </div>
+</section>
+{{end}}

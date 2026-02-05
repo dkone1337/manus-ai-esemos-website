@@ -1,0 +1,24 @@
+{{define "content"}}
+<section style="padding: 4rem 10%;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2>Blog Beiträge verwalten</h2>
+        <a href="/admin/posts/new" style="background: var(--accent-color); color: black; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; font-weight: bold;">Neuer Beitrag</a>
+    </div>
+
+    <div class="services-grid" style="grid-template-columns: 1fr;">
+        <!-- Beispiel-Eintrag -->
+        <div class="service-card" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h3 style="margin: 0;">Willkommen bei ESEMOS</h3>
+                <p style="margin: 0.5rem 0 0 0; opacity: 0.7;">slug: willkommen-bei-esemos</p>
+            </div>
+            <div>
+                <a href="#" style="color: var(--accent-color); margin-right: 15px;">Bearbeiten</a>
+                <button style="background: transparent; border: 1px solid #ff4444; color: #ff4444; padding: 0.3rem 0.8rem;">Löschen</button>
+            </div>
+        </div>
+    </div>
+    
+    <p style="margin-top: 2rem;"><a href="/admin" style="color: white;">&larr; Zurück zum Dashboard</a></p>
+</section>
+{{end}}
