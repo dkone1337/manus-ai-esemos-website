@@ -200,7 +200,8 @@ func renderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
 		return
 	}
 
-	err = t.ExecuteTemplate(w, "layout", data)
+	// Wir nutzen Execute statt ExecuteTemplate, da ParseFiles das erste Template (layout.html) zum Haupttemplate macht
+	err = t.Execute(w, data)
 	if err != nil {
 		log.Printf("Error executing template: %v", err)
 		http.Error(w, fmt.Sprintf("Error executing template: %v", err), http.StatusInternalServerError)
