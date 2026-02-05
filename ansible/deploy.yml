@@ -1,0 +1,54 @@
+---
+- name: Deploy ESEMOS Go App on openSUSE Tumbleweed
+  hosts: all
+  become: true
+  vars:
+    app_dir: "/home/ubuntu/esemos-app"
+    binary_name: "esemos-app"
+
+  tasks:
+    - name: Install dependencies (Go and Nginx)
+      zypper:
+        name:
+          - go1.22
+          - nginx
+          - git
+        state: present
+
+    - name: Ensure application directory exists
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+
+    - name: Build the Go application
+      shell:
+        cmd: "export PATH=$PATH:/usr/local/go/bin && go build -o {{ binary_name }} cmd/main.go"
+        chdir: "{{ app_dir }}"
+      become_user: ubuntu
+
+    - name: Copy systemd service file
+      copy:
+        src: esemos.service
+        dest: /etc/systemd/system/esemos.service
+        mode: '0644'
+
+    - name: Copy Nginx vhost configuration
+      copy:
+        src: esemos.conf
+        dest: /etc/nginx/vhosts.d/esemos.conf
+        mode: '0644'
+
+    - name: Reload systemd and enable ESEMOS service
+      systemd:
+        name: esemos
+        state: restarted
+        enabled: yes
+        daemon_reload: yes
+
+    - name: Ensure Nginx is running and reloaded
+      systemd:
+        name: nginx
+        state: reloaded
+        enabled: yes
