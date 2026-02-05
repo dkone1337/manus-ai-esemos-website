@@ -3,8 +3,8 @@ Description=ESEMOS Go App
 After=network.target
 
 [Service]
-User=ubuntu
-Group=ubuntu
+User=esemos-app
+Group=esemos-app
 WorkingDirectory=/opt/esemos-app
 ExecStart=/opt/esemos-app/esemos-app
 Restart=always

@@ -5,6 +5,7 @@
   vars:
     app_dir: "/opt/esemos-app"
     binary_name: "esemos-app"
+    app_user: "esemos-app"
 
   tasks:
     - name: Install dependencies (Go and Nginx)
@@ -15,18 +16,32 @@
           - git
         state: present
 
+    - name: Create application group
+      group:
+        name: "{{ app_user }}"
+        state: present
+
+    - name: Create application user
+      user:
+        name: "{{ app_user }}"
+        group: "{{ app_user }}"
+        system: yes
+        shell: /bin/false
+        state: present
+
     - name: Ensure application directory exists
       file:
         path: "{{ app_dir }}"
         state: directory
-        owner: ubuntu
-        group: ubuntu
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+        mode: '0755'
 
     - name: Build the Go application
       shell:
         cmd: "export PATH=$PATH:/usr/local/go/bin && go build -o {{ binary_name }} cmd/main.go"
         chdir: "{{ app_dir }}"
-      become_user: ubuntu
+      become_user: "{{ app_user }}"
 
     - name: Copy systemd service file
       copy:
