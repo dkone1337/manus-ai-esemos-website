@@ -3,28 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESEMOS Klon</title>
+    <title>ESEMOS | Wir liefern Ergebnisse</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <header>
-        <nav style="padding: 1rem 10%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border);">
-            <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-color);">ESEMOS</div>
-            <div>
-                <a href="/" style="color: white; margin-left: 20px; text-decoration: none;">Home</a>
-                <a href="/news" style="color: white; margin-left: 20px; text-decoration: none;">News</a>
-                <a href="/kontakt" style="color: white; margin-left: 20px; text-decoration: none;">Kontakt</a>
-                <a href="/login" style="color: var(--accent-color); margin-left: 20px; text-decoration: none;">Admin</a>
-            </div>
-        </nav>
-    </header>
+    <div class="bg-glow"></div>
+    
+    <nav>
+        <div class="logo">ESEMOS</div>
+        <div class="nav-links">
+            <a href="/">Leistungen</a>
+            <a href="/">Technologien</a>
+            <a href="/news">Blog</a>
+            <a href="/">Referenzen</a>
+            <a href="/kontakt">Kontakt</a>
+            <button class="btn-consult">Beratung anfragen</button>
+        </div>
+    </nav>
 
     <main>
         {{template "content" .}}
     </main>
 
-    <footer style="padding: 2rem 10%; border-top: 1px solid var(--glass-border); margin-top: 4rem; text-align: center; opacity: 0.6;">
-        <p>&copy; 2026 ESEMOS GmbH Klon. Alle Rechte vorbehalten.</p>
+    <footer style="padding: 4rem 10%; text-align: center; border-top: 1px solid var(--glass-border); margin-top: 8rem;">
+        <div class="logo" style="margin-bottom: 1.5rem;">ESEMOS</div>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">&copy; 2026 ESEMOS GmbH Klon. Wir liefern Ergebnisse.</p>
     </footer>
 </body>
 </html>
