@@ -1,0 +1,14 @@
+[Unit]
+Description=ESEMOS Go App
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/esemos-app
+ExecStart=/home/ubuntu/esemos-app/esemos-app
+Restart=always
+Environment=PORT=8080
+
+[Install]
+WantedBy=multi-user.target

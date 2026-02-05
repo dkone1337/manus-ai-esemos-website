@@ -1,0 +1,18 @@
+{{define "content"}}
+<section style="padding: 4rem 10%;">
+    <h2>Admin Dashboard</h2>
+    <div class="services-grid">
+        <div class="service-card">
+            <h3>Blog Beiträge</h3>
+            <p>Verwalten Sie Ihre News und Artikel.</p>
+            <a href="/admin/posts" style="color: var(--accent-color);">Beiträge anzeigen</a>
+        </div>
+        <div class="service-card">
+            <h3>Neuer Beitrag</h3>
+            <p>Erstellen Sie einen neuen Blog-Post.</p>
+            <a href="/admin/posts/new" style="color: var(--accent-color);">Erstellen</a>
+        </div>
+    </div>
+    <a href="/logout" style="display: inline-block; margin-top: 2rem; color: #ff4444;">Abmelden</a>
+</section>
+{{end}}

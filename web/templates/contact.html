@@ -1,0 +1,14 @@
+{{define "content"}}
+<section style="padding: 4rem 10%;">
+    <div class="contact-form">
+        <h2>Kontaktieren Sie uns</h2>
+        <form action="/kontakt" method="POST">
+            <input type="text" name="name" placeholder="Ihr Name" required>
+            <input type="email" name="email" placeholder="Ihre E-Mail" required>
+            <input type="text" name="subject" placeholder="Betreff">
+            <textarea name="message" rows="5" placeholder="Ihre Nachricht" required></textarea>
+            <button type="submit">Nachricht senden</button>
+        </form>
+    </div>
+</section>
+{{end}}
