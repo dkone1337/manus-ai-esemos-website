@@ -180,10 +180,29 @@ func handleAdminDeletePost(w http.ResponseWriter, r *http.Request) {
 }
 
 func renderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
-	t, err := template.ParseFiles("web/templates/layout.html", "web/templates/"+tmpl)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	layoutPath := "web/templates/layout.html"
+	tmplPath := "web/templates/" + tmpl
+
+	// Prüfen ob Dateien existieren
+	if _, err := os.Stat(layoutPath); os.IsNotExist(err) {
+		http.Error(w, fmt.Sprintf("Layout template not found at %s. Please ensure you are running the app from the project root.", layoutPath), http.StatusInternalServerError)
 		return
 	}
-	t.ExecuteTemplate(w, "layout", data)
+	if _, err := os.Stat(tmplPath); os.IsNotExist(err) {
+		http.Error(w, fmt.Sprintf("Content template not found at %s", tmplPath), http.StatusInternalServerError)
+		return
+	}
+
+	t, err := template.ParseFiles(layoutPath, tmplPath)
+	if err != nil {
+		log.Printf("Error parsing templates: %v", err)
+		http.Error(w, fmt.Sprintf("Error parsing templates: %v", err), http.StatusInternalServerError)
+		return
+	}
+
+	err = t.ExecuteTemplate(w, "layout", data)
+	if err != nil {
+		log.Printf("Error executing template: %v", err)
+		http.Error(w, fmt.Sprintf("Error executing template: %v", err), http.StatusInternalServerError)
+	}
 }

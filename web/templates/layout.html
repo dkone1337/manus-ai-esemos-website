@@ -8,15 +8,23 @@
 </head>
 <body>
     <header>
-        <!-- Sticky Navigation wird hier eingefügt -->
+        <nav style="padding: 1rem 10%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border);">
+            <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-color);">ESEMOS</div>
+            <div>
+                <a href="/" style="color: white; margin-left: 20px; text-decoration: none;">Home</a>
+                <a href="/news" style="color: white; margin-left: 20px; text-decoration: none;">News</a>
+                <a href="/kontakt" style="color: white; margin-left: 20px; text-decoration: none;">Kontakt</a>
+                <a href="/login" style="color: var(--accent-color); margin-left: 20px; text-decoration: none;">Admin</a>
+            </div>
+        </nav>
     </header>
 
     <main>
         {{template "content" .}}
     </main>
 
-    <footer>
-        <!-- Footer-Inhalt wird hier eingefügt -->
+    <footer style="padding: 2rem 10%; border-top: 1px solid var(--glass-border); margin-top: 4rem; text-align: center; opacity: 0.6;">
+        <p>&copy; 2026 ESEMOS GmbH Klon. Alle Rechte vorbehalten.</p>
     </footer>
 </body>
 </html>
