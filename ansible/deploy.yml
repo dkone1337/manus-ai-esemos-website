@@ -6,14 +6,18 @@
     app_dir: "/opt/esemos-app"
     binary_name: "esemos-app"
     app_user: "esemos-app"
+    github_user: "dkone1337"
+    github_repo: "manus-ai-esemos-website"
+    # Das Token sollte idealerweise als --extra-vars oder in einer verschlüsselten Datei übergeben werden
+    github_token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
 
   tasks:
-    - name: Install dependencies (Go and Nginx)
+    - name: Install dependencies (Nginx and curl)
       zypper:
         name:
-          - go1.22
           - nginx
-          - git
+          - curl
+          - jq
         state: present
 
     - name: Create application group
@@ -31,17 +35,47 @@
 
     - name: Ensure application directory exists
       file:
-        path: "{{ app_dir }}"
+        path: "{{ item }}"
         state: directory
         owner: "{{ app_user }}"
         group: "{{ app_user }}"
         mode: '0755'
+      loop:
+        - "{{ app_dir }}"
+        - "{{ app_dir }}/web"
+        - "{{ app_dir }}/web/static"
+        - "{{ app_dir }}/web/templates"
 
-    - name: Build the Go application
-      shell:
-        cmd: "export PATH=$PATH:/usr/local/go/bin && go build -o {{ binary_name }} cmd/main.go"
-        chdir: "{{ app_dir }}"
-      become_user: "{{ app_user }}"
+    - name: Get latest release download URL
+      shell: >
+        curl -s -H "Authorization: token {{ github_token }}"
+        https://api.github.com/repos/{{ github_user }}/{{ github_repo }}/releases/latest
+        | jq -r '.assets[] | select(.name == "{{ binary_name }}") | .url'
+      register: asset_url
+      changed_when: false
+
+    - name: Download latest binary from GitHub Release
+      shell: >
+        curl -L -H "Authorization: token {{ github_token }}"
+        -H "Accept: application/octet-stream"
+        {{ asset_url.stdout }} -o {{ app_dir }}/{{ binary_name }}
+      args:
+        creates: "{{ app_dir }}/{{ binary_name }}_downloaded" # Nur ein Platzhalter
+      notify: Restart ESEMOS
+
+    - name: Ensure binary is executable
+      file:
+        path: "{{ app_dir }}/{{ binary_name }}"
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+        mode: '0755'
+
+    - name: Copy web assets (Templates and Static)
+      copy:
+        src: "../web/"
+        dest: "{{ app_dir }}/web/"
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
 
     - name: Copy systemd service file
       copy:
@@ -58,7 +92,7 @@
     - name: Reload systemd and enable ESEMOS service
       systemd:
         name: esemos
-        state: restarted
+        state: started
         enabled: yes
         daemon_reload: yes
 
@@ -67,3 +101,9 @@
         name: nginx
         state: reloaded
         enabled: yes
+
+  handlers:
+    - name: Restart ESEMOS
+      systemd:
+        name: esemos
+        state: restarted
